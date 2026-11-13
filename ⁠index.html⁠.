@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SportyBet Ghana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        sportyRed: '#e60012',
+                        sportyDark: '#121212',
+                        sportyCard: '#1e1e1e',
+                        sportyGreen: '#00b050',
+                        sportyGold: '#ffcc00'
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: #fff; user-select: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="h-full flex justify-center items-center bg-[#0a0a0a] text-white">
+
+    <div class="w-full max-w-md h-full md:h-[95vh] md:rounded-3xl bg-sportyDark flex flex-col relative overflow-hidden shadow-2xl border border-gray-800">
+        
+        <!-- Header -->
+        <header class="bg-sportyRed px-4 py-2.5 flex items-center justify-between border-b border-red-700 shrink-0 z-30">
+            <div class="flex items-center space-x-2">
+                <span class="font-black italic text-lg tracking-wider text-white">SportyBet</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="switchTab('deposit')" class="bg-white text-sportyRed font-extrabold px-3 py-1 rounded-md text-xs uppercase shadow">Deposit</button>
+                <div class="bg-black/30 border border-white/20 rounded-full px-2.5 py-0.5 flex items-center">
+                    <span class="text-[9px] text-sportyGold font-bold mr-1">GHS</span>
+                    <span id="header-balance" class="text-xs font-black text-white">0.00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="flex-1 flex flex-col overflow-y-auto relative bg-sportyDark pb-20">
+            
+            <!-- HOME TAB -->
+            <div id="tab-home" class="flex flex-col space-y-2">
+                
+                <!-- Quick Game Carousel -->
+                <div class="bg-[#181818] px-3 py-2.5 overflow-x-auto no-scrollbar flex space-x-3 shrink-0 border-b border-gray-800">
+                    <div onclick="switchTab('hero')" class="w-20 shrink-0 text-center cursor-pointer">
+                        <div class="w-20 h-16 rounded-xl bg-gradient-to-tr from-yellow-600 to-red-600 flex items-center justify-center shadow mb-1">
+                            <i class="fa-solid fa-user-ninja text-2xl text-white"></i>
+                        </div>
+                        <span class="text-[10px] font-bold truncate block">Sporty Hero</span>
+                    </div>
+                    <div class="w-20 shrink-0 text-center cursor-pointer">
+                        <div class="w-20 h-16 rounded-xl bg-gradient-to-tr from-red-700 to-orange-500 flex items-center justify-center shadow mb-1">
+                            <i class="fa-solid fa-plane text-2xl text-white"></i>
+                        </div>
+                        <span class="text-[10px] font-bold truncate block">Aviator</span>
+                    </div>
+                    <div class="w-20 shrink-0 text-center">
+                        <div class="w-20 h-16 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center shadow mb-1">
+                            <i class="fa-solid fa-dice text-2xl text-white"></i>
+                        </div>
+                        <span class="text-[10px] font-bold truncate block">Virtuals</span>
+                    </div>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="bg-[#181818] px-3 py-2 flex space-x-6 text-xs font-bold text-gray-400 border-b border-gray-800 shrink-0 overflow-x-auto no-scrollbar">
+                    <button class="text-sportyRed border-b-2 border-sportyRed pb-1">TODAY'S FOOTBALL</button>
+                    <button class="hover:text-white pb-1 whitespace-nowrap">NEXT 3 HOURS</button>
+                    <button class="hover:text-white pb-1 whitespace-nowrap">UEFA LEAGUE</button>
+                </div>
+
+                <!-- Live / Upcoming Matches Feed -->
+                <div class="p-3 space-y-3">
+                    <div class="bg-sportyCard p-3 rounded-2xl border border-gray-800 space-y-2">
+                        <div class="flex justify-between items-center text-[10px] text-gray-400">
+                            <span class="text-sportyGreen font-bold flex items-center"><span class="w-1.5 h-1.5 bg-sportyGreen rounded-full animate-ping mr-1"></span> Live 66'</span>
+                            <span>UEFA Nations League</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs font-bold">
+                            <span>Netherlands vs Greece</span>
+                            <span class="text-sportyGold font-black">7 - 0</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 pt-1">
+                            <button onclick="placeBet('Netherlands', 1.75)" class="bg-black/50 p-2 rounded-xl text-center border border-gray-700 hover:border-sportyGreen">
+                                <span class="block text-[9px] text-gray-400">Over 8</span>
+                                <span class="text-xs font-bold text-sportyGreen">1.75</span>
+                            </button>
+                            <button onclick="placeBet('Draw', 3.60)" class="bg-black/50 p-2 rounded-xl text-center border border-gray-700">
+                                <span class="block text-[9px] text-gray-400">X</span>
+                                <span class="text-xs font-bold text-gray-300">3.60</span>
+                            </button>
+                            <button onclick="placeBet('Greece', 2.10)" class="bg-black/50 p-2 rounded-xl text-center border border-gray-700">
+                                <span class="block text-[9px] text-gray-400">Under 8</span>
+                                <span class="text-xs font-bold text-sportyGreen">2.10</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-sportyCard p-3 rounded-2xl border border-gray-800 space-y-2">
+                        <div class="flex justify-between items-center text-[10px] text-gray-400">
+                            <span class="text-gray-400">Today, 9:30 PM</span>
+                            <span>Liga Premier</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs font-bold">
+                            <span>Club Calor vs Real Apodaca</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 pt-1">
+                            <button onclick="placeBet('Club Calor', 10.50)" class="bg-black/50 p-2 rounded-xl text-center border border-gray-700">
+                                <span class="block text-[9px] text-gray-400">1</span>
+                                <span class="text-xs font-bold text-sportyGreen">10.50</span>
+                            </button>
+                            <button onclick="placeBet('Draw', 6.30)" class="bg-black/50 p-2 rounded-xl text-center border border-gray-700">
+                                <span class="block text-[9px] text-gray-400">X</span>
+                                <span class="text-xs font-bold text-gray-300">6.30</span>
+                            </button>
+                            <button onclick="placeBet('Real Apodaca', 1.18)" class="bg-black/50 p-2 rounded-xl text-center border border-gray-700">
+                                <span class="block text-[9px] text-gray-400">2</span>
+                                <span class="text-xs font-bold text-sportyGreen">1.18</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPORTY HERO GAME TAB -->
+            <div id="tab-hero" class="flex flex-col flex-1 hidden p-3 space-y-3">
+                <div class="relative w-full h-52 bg-gradient-to-b from-[#090d16] via-[#111936] to-[#121212] rounded-2xl flex flex-col items-center justify-center border border-gray-800 overflow-hidden">
+                    <div id="hero-status" class="text-xs uppercase tracking-widest text-sportyGold font-bold mb-1">Ready for Takeoff</div>
+                    <div id="hero-multiplier" class="text-5xl font-black tracking-wider text-white">1.00x</div>
+                </div>
+                <div class="bg-sportyCard p-4 rounded-2xl border border-gray-800 space-y-3">
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Stake (GHS)</span>
+                        <span>Min: 1.00</span>
+                    </div>
+                    <div class="flex space-x-2">
+                        <input type="number" id="hero-stake" value="10.00" class="flex-1 bg-black/50 border border-gray-700 rounded-xl p-3 text-center font-bold text-white focus:outline-none">
+                        <button id="hero-btn" onclick="toggleHeroRound()" class="w-36 bg-sportyGreen hover:bg-green-600 text-white font-extrabold py-3.5 rounded-xl text-sm uppercase tracking-wider">
+                            Place Bet
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DEPOSIT TAB -->
+            <div id="tab-deposit" class="flex flex-col flex-1 hidden p-4 space-y-4">
+                <h2 class="text-base font-bold text-sportyGold"><i class="fa-solid fa-wallet mr-2"></i> Deposit via MTN MoMo</h2>
+                <div class="bg-sportyCard p-4 rounded-2xl border border-gray-800 space-y-3">
+                    <label class="text-xs text-gray-400 block">Amount (GHS)</label>
+                    <input type="number" id="deposit-amt" value="100.00" class="w-full bg-black/50 border border-gray-700 rounded-xl p-3 text-white font-bold focus:outline-none">
+                    <button onclick="executeDeposit()" class="w-full bg-sportyGreen text-white font-extrabold py-3.5 rounded-xl text-sm uppercase">Top Up Now</button>
+                </div>
+            </div>
+
+            <!-- ME (PROFILE) TAB -->
+            <div id="tab-me" class="flex flex-col flex-1 hidden p-4 space-y-4">
+                <div class="bg-sportyCard p-4 rounded-2xl border border-gray-800 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400">Account ID</p>
+                        <h3 class="text-sm font-bold text-white">0541799703 (Verified)</h3>
+                    </div>
+                    <span class="bg-sportyGreen/20 text-sportyGreen border border-sportyGreen/40 text-xs px-2.5 py-1 rounded-full font-semibold">Active</span>
+                </div>
+                <button onclick="switchTab('admin')" class="w-full bg-gradient-to-r from-red-950 to-purple-950 border border-red-700 text-red-300 font-bold py-3 rounded-xl text-xs uppercase">
+                    <i class="fa-solid fa-user-secret mr-2"></i> Super Admin Portal
+                </button>
+            </div>
+
+            <!-- SUPER ADMIN TAB -->
+            <div id="tab-admin" class="flex flex-col flex-1 hidden p-4 space-y-4 bg-[#0d0d0d]">
+                <h2 class="text-sm font-black text-red-400 uppercase tracking-wider"><i class="fa-solid fa-bolt mr-2"></i> Hacker Link Predictor</h2>
+                <div class="bg-sportyCard border border-red-800/60 p-4 rounded-2xl space-y-3">
+                    <label class="text-xs text-gray-300 block font-semibold">Set Target Multiplier (e.g. 35.28)</label>
+                    <input type="number" step="0.01" id="admin-target" value="35.28" class="w-full bg-black border border-red-700 rounded-xl p-3 text-red-400 font-black font-mono text-lg focus:outline-none">
+                    <button onclick="saveAdminTarget()" class="w-full bg-red-600 text-white font-extrabold py-3 rounded-xl text-xs uppercase shadow">Lock Target</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Neutral Bottom Navigation Bar -->
+        <nav class="bg-[#181818] border-t border-gray-800 px-4 py-2 flex justify-around items-center shrink-0 z-30">
+            <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-sportyRed space-y-0.5">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] font-semibold">Home</span>
+            </button>
+            <button onclick="switchTab('home')" id="nav-menu" class="flex flex-col items-center text-gray-400 hover:text-white space-y-0.5">
+                <i class="fa-solid fa-bars text-lg"></i>
+                <span class="text-[10px] font-semibold">AZ Menu</span>
+            </button>
+            <button onclick="switchTab('hero')" id="nav-games" class="flex flex-col items-center text-gray-400 hover:text-white space-y-0.5">
+                <i class="fa-solid fa-gamepad text-lg"></i>
+                <span class="text-[10px] font-semibold">Games</span>
+            </button>
+            <button onclick="switchTab('deposit')" id="nav-bets" class="flex flex-col items-center text-gray-400 hover:text-white space-y-0.5">
+                <i class="fa-solid fa-ticket text-lg"></i>
+                <span class="text-[10px] font-semibold">Open Bets</span>
+            </button>
+            <button onclick="switchTab('me')" id="nav-me" class="flex flex-col items-center text-gray-400 hover:text-white space-y-0.5">
+                <i class="fa-solid fa-user text-lg"></i>
+                <span class="text-[10px] font-semibold">Me</span>
+            </button>
+        </nav>
+
+        <!-- Toast -->
+        <div id="toast" class="absolute top-16 left-1/2 transform -translate-x-1/2 bg-[#222] border border-sportyGold text-white px-4 py-2 rounded-xl shadow-xl opacity-0 pointer-events-none transition-opacity duration-300 text-xs font-semibold z-50"></div>
+    </div>
+
+    <script>
+        let balance = 0.00;
+        let forcedTarget = 35.28;
+        let gameRunning = false;
+        let multInterval = null;
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.remove('opacity-0');
+            setTimeout(() => t.classList.add('opacity-0'), 2500);
+        }
+
+        function updateBalUI() {
+            document.getElementById('header-balance').innerText = balance.toFixed(2);
+        }
+
+        function switchTab(tab) {
+            ['home', 'hero', 'deposit', 'me', 'admin'].forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                if(el) el.classList.add('hidden');
+            });
+            const target = document.getElementById('tab-' + tab);
+            if(target) target.classList.remove('hidden');
+
+            ['home', 'menu', 'games', 'bets', 'me'].forEach(n => {
+                const btn = document.getElementById('nav-' + n);
+                if(btn) { btn.classList.remove('text-sportyRed'); btn.classList.add('text-gray-400'); }
+            });
+            if(tab === 'home') document.getElementById('nav-home').classList.add('text-sportyRed');
+            if(tab === 'hero') document.getElementById('nav-games').classList.add('text-sportyRed');
+            if(tab === 'deposit') document.getElementById('nav-bets').classList.add('text-sportyRed');
+            if(tab === 'me' || tab === 'admin') document.getElementById('nav-me').classList.add('text-sportyRed');
+        }
+
+        function placeBet(team, odds) {
+            const stake = 10.00;
+            if(balance < stake) { showToast("Insufficient balance! Please deposit."); return; }
+            balance -= stake;
+            updateBalUI();
+            showToast(`Placed GHS ${stake.toFixed(2)} on ${team} (@${odds})`);
+        }
+
+        function executeDeposit() {
+            const amt = parseFloat(document.getElementById('deposit-amt').value) || 0;
+            if(amt <= 0) { showToast("Enter a valid amount"); return; }
+            balance += amt;
+            updateBalUI();
+            showToast(`Successfully deposited GHS ${amt.toFixed(2)}`);
+            switchTab('home');
+        }
+
+        function saveAdminTarget() {
+            const val = parseFloat(document.getElementById('admin-target').value);
+            if(!isNaN(val) && val > 1) {
+                forcedTarget = val;
+                showToast(`Hacker target locked to ${val.toFixed(2)}x`);
+            }
+        }
+
+        function toggleHeroRound() {
+            const stake = parseFloat(document.getElementById('hero-stake').value) || 10;
+            const btn = document.getElementById('hero-btn');
+
+            if(!gameRunning) {
+                if(balance < stake) { showToast("Insufficient balance"); return; }
+                balance -= stake;
+                updateBalUI();
+                gameRunning = true;
+                let current = 1.00;
+
+                document.getElementById('hero-status').innerText = "Superhero in Flight...";
+                btn.className = "w-36 bg-sportyGold text-black font-extrabold py-3.5 rounded-xl text-sm uppercase";
+                btn.innerText = "Cash Out";
+
+                const startT = Date.now();
+                multInterval = setInterval(() => {
+                    const elapsed = (Date.now() - startT) / 1000;
+                    current = 1.00 + Math.pow(elapsed, 1.5) * 0.25;
+
+                    if(current >= forcedTarget) {
+                        clearInterval(multInterval);
+                        gameRunning = false;
+                        document.getElementById('hero-multiplier').innerText = forcedTarget.toFixed(2) + "x";
+                        document.getElementById('hero-status').innerText = "Crashed @ " + forcedTarget.toFixed(2) + "x";
+                        btn.className = "w-36 bg-sportyGreen text-white font-extrabold py-3.5 rounded-xl text-sm uppercase";
+                        btn.innerText = "Place Bet";
+                    } else {
+                        document.getElementById('hero-multiplier').innerText = current.toFixed(2) + "x";
+                    }
+                }, 50);
+            } else {
+                clearInterval(multInterval);
+                gameRunning = false;
+                const win = stake * parseFloat(document.getElementById('hero-multiplier').innerText);
+                balance += win;
+                updateBalUI();
+                showToast(`Cashed out GHS ${win.toFixed(2)}!`);
+                btn.className = "w-36 bg-sportyGreen text-white font-extrabold py-3.5 rounded-xl text-sm uppercase";
+                btn.innerText = "Place Bet";
+                document.getElementById('hero-status').innerText = "Ready for Takeoff";
+            }
+        }
+    </script>
+</body>
+</html>
